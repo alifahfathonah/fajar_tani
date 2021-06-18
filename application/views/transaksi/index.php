@@ -242,6 +242,7 @@
 
           if ($('#bayar').val() <= total) {
               $('#kembali').val('');
+              $('#btn_bayar').attr('disabled',true);
           }else{
               $('#kembali').val(num);
               $('#btn_bayar').removeAttr('disabled');
