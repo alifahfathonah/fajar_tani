@@ -9,7 +9,7 @@
       </ol>
     </section> 
 
-    <!-- Main content --> 
+    <!-- Main content -->  
     <section class="content">
 
     <?php if ($this->session->flashdata('gagal')): ?>
@@ -49,6 +49,7 @@
                 <thead>
                 <tr>
                   <th width="1">No</th>
+                  <th>Foto</th>
                   <th>Kode</th>
                   <th>Nama Obat</th>
                   <th>Aturan Pakai</th>
@@ -63,6 +64,7 @@
                                   
                   <tr>
                     <td width="1"><?php echo $no; ?></td>
+                    <td><a href="<?= (@$key['obat_foto'])? base_url('assets/gambar/obat/'.$key['obat_foto']) : base_url('assets/gambar/no.png') ?>"><img src="<?= (@$key['obat_foto'])? base_url('assets/gambar/obat/'.$key['obat_foto']) : base_url('assets/gambar/no.png') ?>" width="40"></a></td>
                     <td><?php echo $key['obat_kode'] ?></td>
                     <td><?php echo $key['obat_nama'] ?></td>
                     <td><?php echo $key['obat_aturan'] ?></td>
@@ -105,6 +107,11 @@
                         <div class="modal-body">
                           <form role="form" method="post" action="<?php echo base_url() ?>obat/update/<?php echo $key['obat_id'] ?>" enctype="multipart/form-data">
                             <div class="box-body">
+                              <div class="form-group">
+                                <label>Foto Produk</label>
+                                <input type="file" name="obat_foto" class="form-control" value="">
+                                <small class="text-danger">Masukan gambar untuk mengganti</small>
+                              </div>
                               <div class="form-group">
                                 <label>Obat Kode</label>
                                 <input readonly="" required="" type="text" name="obat_kode" class="form-control" placeholder="Kode" value="<?php echo $key['obat_kode'] ?>">
@@ -160,6 +167,10 @@
               <div class="modal-body">
                 <form role="form" method="post" action="<?php echo base_url() ?>obat/add" enctype="multipart/form-data">
                   <div class="box-body">
+                    <div class="form-group">
+                      <label>Foto Produk</label>
+                      <input type="file" name="obat_foto" class="form-control" value="">
+                    </div>
                     <div class="form-group">
                       <label>Obat Kode</label>
                       <input required="" type="text" name="obat_kode" class="form-control" placeholder="Kode" value="">

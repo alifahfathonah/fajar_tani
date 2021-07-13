@@ -18,7 +18,7 @@ class Obat extends CI_Controller{
 		else{
 			redirect(base_url('login'));
 		}
-	} 
+	}  
 	function add(){ 
 		$kode = $_POST['obat_kode'];
 		$cek = $this->db->query("SELECT * FROM t_obat WHERE obat_hapus = 0 AND obat_kode = '$kode'")->num_rows();
@@ -26,19 +26,73 @@ class Obat extends CI_Controller{
 		if ($cek > 0) {
 			$this->session->set_flashdata('gagal','Kode sudah di gunakan');
 		}else{
-			$set = array(	
-							'obat_kode' => $kode,
-							'obat_nama' => $_POST['obat_nama'],
-							'obat_aturan' => $_POST['obat_aturan'],
-							'obat_harga' => $_POST['obat_harga'],
-							'obat_tanggal'	=> date('Y-m-d'),
-						);
 
-			if ($this->query_builder->add('t_obat',$set)) {
-				$this->session->set_flashdata('success','Data berhasil di tambah');
-			} else {
-				$this->session->set_flashdata('gagal','Data gagal di tambah');
-			}	
+			if (@$_FILES['obat_foto']['name']) {
+			
+				if($_FILES['obat_foto']['size'] <= 0){
+					$this->session->set_flashdata('gagal','Foto tidak boleh lebih dari 2 MB');
+					redirect(base_url('obat'));
+				}
+				else{
+
+					//config uplod foto
+					  $config = array(
+					  'upload_path' 	=> './assets/gambar/obat',
+					  'allowed_types' 	=> "gif|jpg|png|jpeg",
+					  'overwrite' 		=> TRUE,
+					  );
+
+					//upload foto
+					$this->load->library('upload', $config);
+
+					if ($this->upload->do_upload('obat_foto')) {
+						
+						//replace Karakter name foto
+						$name_foto = $_FILES['obat_foto']['name'];
+						$char = array('!', '&', '?', '/', '/\/', ':', ';', '#', '<', '>', '=', '^', '@', '~', '`', '{', '}', ' ');
+				        $foto = str_replace($char, '_', $name_foto);
+				        $char1 = array('[',']');
+				        $foto1 = str_replace($char1, '', $foto);
+
+				        $set = array(	
+				        				'obat_foto' => $foto1,
+										'obat_kode' => $kode,
+										'obat_nama' => $_POST['obat_nama'],
+										'obat_aturan' => $_POST['obat_aturan'],
+										'obat_harga' => $_POST['obat_harga'],
+										'obat_tanggal'	=> date('Y-m-d'),
+									);
+
+						if ($this->query_builder->add('t_obat',$set)) {
+							$this->session->set_flashdata('success','Data berhasil di tambah');
+						} else {
+							$this->session->set_flashdata('gagal','Data gagal di tambah');
+						}	
+					}else{
+
+						$this->session->set_flashdata('gagal','Data gagal di tambah');
+					}
+					
+				}
+
+			}else{
+
+				$set = array(	
+								'obat_kode' => $kode,
+								'obat_nama' => $_POST['obat_nama'],
+								'obat_aturan' => $_POST['obat_aturan'],
+								'obat_harga' => $_POST['obat_harga'],
+								'obat_tanggal'	=> date('Y-m-d'),
+							);
+
+				if ($this->query_builder->add('t_obat',$set)) {
+					$this->session->set_flashdata('success','Data berhasil di tambah');
+				} else {
+					$this->session->set_flashdata('gagal','Data gagal di tambah');
+				}	
+				
+			}
+
 		}
 		
 		redirect(base_url('obat'));
@@ -57,18 +111,71 @@ class Obat extends CI_Controller{
 		redirect(base_url('obat'));
 	}
 	function update($id){
-		$set = array(
-						'obat_nama' => $_POST['obat_nama'],
-						'obat_aturan' => $_POST['obat_aturan'],
-						'obat_harga' => $_POST['obat_harga'],
-					);
-
-		if ($this->query_builder->update('t_obat',$set,'obat_id ='.$id)) {
-			$this->session->set_flashdata('success','Data berhasil di tambah');
-		} else {
-			$this->session->set_flashdata('gagal','Data gagal di tambah');
-		}
-		redirect(base_url('obat'));
 		
+		if (@$_FILES['obat_foto']['name']) {
+			
+			if($_FILES['obat_foto']['size'] <= 0){
+				$this->session->set_flashdata('gagal','Foto tidak boleh lebih dari 2 MB');
+				redirect(base_url('obat'));
+			}
+			else{
+
+				//config uplod foto
+				  $config = array(
+				  'upload_path' 	=> './assets/gambar/obat',
+				  'allowed_types' 	=> "gif|jpg|png|jpeg",
+				  'overwrite' 		=> TRUE,
+				  );
+
+				//upload foto
+				$this->load->library('upload', $config);
+
+				if ($this->upload->do_upload('obat_foto')) {
+					
+					//replace Karakter name foto
+					$name_foto = $_FILES['obat_foto']['name'];
+					$char = array('!', '&', '?', '/', '/\/', ':', ';', '#', '<', '>', '=', '^', '@', '~', '`', '{', '}', ' ');
+			        $foto = str_replace($char, '_', $name_foto);
+			        $char1 = array('[',']');
+			        $foto1 = str_replace($char1, '', $foto);
+
+			        $set = array(	
+			        				'obat_foto' => $foto1,
+									'obat_nama' => $_POST['obat_nama'],
+									'obat_aturan' => $_POST['obat_aturan'],
+									'obat_harga' => $_POST['obat_harga'],
+									'obat_tanggal'	=> date('Y-m-d'),
+								);
+
+					if ($this->query_builder->update('t_obat',$set,'obat_id ='.$id)) {
+						$this->session->set_flashdata('success','Data berhasil di ubah');
+					} else {
+						$this->session->set_flashdata('gagal','Data gagal di ubah');
+					}	
+				}else{
+					
+					$this->session->set_flashdata('gagal','Data gagal di ubah');
+				}
+				
+			}
+
+		}else{
+
+			$set = array(	
+							'obat_nama' => $_POST['obat_nama'],
+							'obat_aturan' => $_POST['obat_aturan'],
+							'obat_harga' => $_POST['obat_harga'],
+							'obat_tanggal'	=> date('Y-m-d'),
+						);
+
+			if ($this->query_builder->update('t_obat',$set,'obat_id ='.$id)) {
+				$this->session->set_flashdata('success','Data berhasil di ubah');
+			} else {
+				$this->session->set_flashdata('gagal','Data gagal di ubah');
+			}	
+			
+		}
+
+		redirect(base_url('obat'));
 	}
 }

@@ -165,6 +165,7 @@
                                   
                   <tr>
                     <td><?php echo $key['obat_kode'] ?></td>
+                    <td><img src="<?= (@$key['obat_foto'])? base_url('assets/gambar/obat/'.$key['obat_foto']) : base_url('assets/gambar/no.png') ?>" width="40"></td>
                     <td><?php echo $key['obat_nama'] ?></td>
                     <td style="width: 1px;">
                       <div>
