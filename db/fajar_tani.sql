@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2021 at 06:15 PM
+-- Generation Time: Jul 13, 2021 at 05:08 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -43,12 +43,12 @@ CREATE TABLE `t_detail_user` (
 
 INSERT INTO `t_detail_user` (`detail_id`, `detail_id_user`, `detail_jabatan`, `detail_pendidikan`, `detail_alamat`, `detail_biodata`, `detail_hapus`) VALUES
 (1, 1, 'BOS', 'pendidikan', 'alamat', 'ini biodata ku', 0),
-(4, 2, NULL, NULL, NULL, NULL, 0),
-(5, 3, NULL, NULL, NULL, NULL, 0),
+(4, 2, NULL, NULL, NULL, NULL, 1),
+(5, 3, NULL, NULL, NULL, NULL, 1),
 (6, 4, NULL, NULL, NULL, NULL, 0),
-(7, 2, NULL, NULL, NULL, NULL, 0),
-(8, 3, NULL, NULL, NULL, NULL, 0),
-(9, 3, NULL, NULL, NULL, NULL, 0);
+(7, 2, NULL, NULL, NULL, NULL, 1),
+(8, 3, NULL, NULL, NULL, NULL, 1),
+(9, 3, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -105,6 +105,15 @@ CREATE TABLE `t_log` (
   `log_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `t_log`
+--
+
+INSERT INTO `t_log` (`log_id`, `log_user`, `log_kode`, `log_obat`, `log_harga`, `log_status`) VALUES
+(30, '1', 'OBT02', 'Pestisida imidakloprid TIODOR 30 WP 100 gram', '7000', 1),
+(31, '1', 'OBT03', 'INSEKTISIDA PENGENDALI HAMA WERENG KUTU', '15000', 1),
+(32, '1', 'OBT03', 'INSEKTISIDA PENGENDALI HAMA WERENG KUTU', '15000', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -114,6 +123,7 @@ CREATE TABLE `t_log` (
 CREATE TABLE `t_obat` (
   `obat_id` int(11) NOT NULL,
   `obat_kode` text NOT NULL,
+  `obat_foto` text NOT NULL,
   `obat_nama` text NOT NULL,
   `obat_aturan` text NOT NULL,
   `obat_harga` text NOT NULL,
@@ -125,10 +135,10 @@ CREATE TABLE `t_obat` (
 -- Dumping data for table `t_obat`
 --
 
-INSERT INTO `t_obat` (`obat_id`, `obat_kode`, `obat_nama`, `obat_aturan`, `obat_harga`, `obat_hapus`, `obat_tanggal`) VALUES
-(4, 'OBT01', 'DECIS 25 EC 250 ML', 'Gunakan pagi hari campur dengan air 500ml', '12000', 0, '2021-06-16'),
-(5, 'OBT02', 'Pestisida imidakloprid TIODOR 30 WP 100 gram', 'Campur dengan air 300ml\r\n', '7000', 0, '2021-06-16'),
-(6, 'OBT03', 'INSEKTISIDA PENGENDALI HAMA WERENG KUTU', 'Gunakan pagi hari campur dengan air 500ml', '15000', 0, '2021-06-16');
+INSERT INTO `t_obat` (`obat_id`, `obat_kode`, `obat_foto`, `obat_nama`, `obat_aturan`, `obat_harga`, `obat_hapus`, `obat_tanggal`) VALUES
+(4, 'OBT02', 'dessert_donut.png', 'DECIS 25 EC 250 ML', 'Gunakan pagi hari campur dengan air 500ml', '12000', 0, '2021-07-13'),
+(5, 'OBT02', 'dessert_ics.png', 'Pestisida imidakloprid TIODOR 30 WP 100 gram', 'Campur dengan air 300ml\r\n', '7000', 0, '2021-07-13'),
+(6, 'OBT03', '', 'INSEKTISIDA PENGENDALI HAMA WERENG KUTU', 'Gunakan pagi hari campur dengan air 500ml', '15000', 0, '2021-06-16');
 
 -- --------------------------------------------------------
 
@@ -196,7 +206,8 @@ CREATE TABLE `t_transaksi` (
 --
 
 INSERT INTO `t_transaksi` (`transaksi_id`, `transaksi_total`, `transaksi_kembali`, `transaksi_bayar`, `transaksi_tanggal`, `transaksi_hapus`) VALUES
-(3, '41000', '9000', '50000', '2021-06-18', 0);
+(3, '41000', '9000', '50000', '2021-06-18', 0),
+(4, '27000', '', '', '2021-06-18', 1);
 
 -- --------------------------------------------------------
 
@@ -220,9 +231,9 @@ CREATE TABLE `t_user` (
 --
 
 INSERT INTO `t_user` (`user_id`, `user_name`, `user_level`, `user_email`, `user_password`, `user_tanggal`, `user_foto`, `user_hapus`) VALUES
-(1, 'Vendik', '1', 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3', '2019-12-27', 'noimage.gif', 0),
-(2, 'user', '2', 'user@user.com', 'ee11cbb19052e40b07aac0ca060c23ee', '2020-07-20', NULL, 0),
-(3, 'Laila', '2', 'laila@gmail.com', 'f30618ed64655812746272636a992b95', '2020-07-21', NULL, 0);
+(1, 'admin', '1', 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3', '2019-12-27', 'noimage.gif', 0),
+(2, 'user', '2', 'user@user.com', 'ee11cbb19052e40b07aac0ca060c23ee', '2020-07-20', NULL, 1),
+(3, 'Laila', '2', 'laila@gmail.com', 'f30618ed64655812746272636a992b95', '2020-07-21', NULL, 1);
 
 --
 -- Indexes for dumped tables
@@ -302,13 +313,13 @@ ALTER TABLE `t_indikasi`
 -- AUTO_INCREMENT for table `t_log`
 --
 ALTER TABLE `t_log`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `t_obat`
 --
 ALTER TABLE `t_obat`
-  MODIFY `obat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `obat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `t_penyakit`
@@ -326,7 +337,7 @@ ALTER TABLE `t_rules`
 -- AUTO_INCREMENT for table `t_transaksi`
 --
 ALTER TABLE `t_transaksi`
-  MODIFY `transaksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `transaksi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
