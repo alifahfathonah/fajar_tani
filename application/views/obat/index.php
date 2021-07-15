@@ -33,7 +33,13 @@
         <div class="box-header with-border">
 
             <div align="left">
+
+            <?php if ($this->session->userdata('level') == 1): ?>
+
               <button class="btn btn-success" data-toggle="modal" data-target="#modal-album"><i class="fa fa-plus"></i> Tambah Data</button>
+
+            <?php endif ?>
+            
             </div>
 
           <div class="box-tools pull-right">
@@ -54,7 +60,11 @@
                   <th>Nama Obat</th>
                   <th>Aturan Pakai</th>
                   <th>Harga (Rp)</th>
-                  <th>Action</th>
+
+                  <?php if ($this->session->userdata('level') == 1): ?>
+                    <th>Action</th>  
+                  <?php endif ?>
+                  
                 </tr>
                 </thead>
                 <tbody>
@@ -69,13 +79,19 @@
                     <td><?php echo $key['obat_nama'] ?></td>
                     <td><?php echo $key['obat_aturan'] ?></td>
                     <td><?php echo number_format($key['obat_harga']) ?></td>
-                    <td style="width: 50px;">
-                      <div>
-                      <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modal-edit<?php echo $key['obat_id'] ?>"><i class="fa fa-edit"></i></button>
-                      <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modalHapus<?php echo $key['obat_id'] ?>"><i class="fa fa-trash"></i></button>
 
-                      </div>
-                    </td>
+                    <?php if ($this->session->userdata('level') == 1): ?>
+
+                      <td style="width: 50px;">
+                        <div>
+                        <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modal-edit<?php echo $key['obat_id'] ?>"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modalHapus<?php echo $key['obat_id'] ?>"><i class="fa fa-trash"></i></button>
+
+                        </div>
+                      </td>
+
+                    <?php endif ?>
+
                   </tr>
 
                    <!--modal hapus-->

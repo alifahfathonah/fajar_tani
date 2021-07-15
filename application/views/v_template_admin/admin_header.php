@@ -222,11 +222,15 @@
             </a>
           </li>
 
+          <?php endif ?>
+
           <li <?php echo @$obat; ?>>
             <a href="<?php echo base_url() ?>obat">
               <i class="fa fa-medkit"></i> <span>Data Obat</span>
             </a>
           </li>
+
+          <?php if ($this->session->userdata('level') < 2): ?>
  
           <li class="treeview <?php echo @$modul; ?>" style="height: auto;">
             <a href="#">
@@ -244,12 +248,6 @@
           </li>
 
           <?php endif ?>
-
-          <!-- <li <?php echo @$diagnosa; ?>>
-            <a href="<?php echo base_url() ?>diagnosa">
-              <i class="fa fa-pencil"></i> <span>Diagnosa</span>
-            </a>
-          </li> -->
 
           <li <?php echo @$transaksi; ?>>
             <a href="<?php echo base_url() ?>transaksi">
