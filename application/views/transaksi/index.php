@@ -13,7 +13,7 @@
     <section class="content"> 
 
     <?php if ($this->session->flashdata('gagal')): ?>
-      <div class="alert alert-danger alert-dismissible">
+      <div class="alert alert-danger alert-dismissible"> 
          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <i class="icon fa fa-close"></i>
         <?php echo $this->session->flashdata('gagal'); ?>
@@ -186,45 +186,96 @@
         <div class="modal-content">
           <div class="modal-body">
             
-            <form method="POST" action="<?php echo base_url('transaksi/diagnosa') ?>">
-
-             <?php $no = 0; ?>
-             <?php foreach ($indikasi_data as $key): ?>
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-md-9 col-xs-7" style="padding-right: 0px;">
-                     <input readonly="" class="form-control" type="text" value="<?php echo $key['indikasi_nama'] ?>">
-                    </div> 
-
-                    <div class="col-md-3 col-xs-5" align="right">
-                      <div data-toggle="buttons">
-                        <div class="btn-group">
-                          <label class="btn btn-primary">
-                            <input type="radio" name="pilih[<?php echo $no; ?>]" id="type" value="<?php echo $key['indikasi_id'] ?>" class="sr-only" required>Ya
-                          </label>
-                          <label class="btn btn-primary">
-                            <input type="radio" name="pilih[<?php echo $no; ?>]" id="type" value="0" class="sr-only" required>Tidak
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
+            <div class="stepwizard">
+              <div class="stepwizard-row setup-panel">
+                  <div class="stepwizard-step col-xs-6"> 
+                      <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                      <p><small>Step 1</small></p>
                   </div>
-                </div>
-
-             <?php $no++; ?>
-             <?php endforeach ?>
-
-              <div class=" form-group">
-                <div class="row">
-                  <div class="col-md-12" style="margin-bottom: -15px;">
-                   <button type="submit" class="btn btn-success"><i class="fa fa-history"></i> Start Diagnosa</button>
+                  <div class="stepwizard-step col-xs-6"> 
+                      <a href="#step-2" type="button" class="btn btn-default btn-circle" >2</a>
+                      <p><small>Step 2</small></p>
                   </div>
-                </div>
               </div>
-               
+          </div>
 
-             </form>
+          <br/>
+
+          <form role="form" method="POST" action="<?php echo base_url('diagnosa/pilih/1') ?>" enctype="multipart/form-data">
+            <div class="panel panel-primary setup-content" id="step-1">
+              <div class="panel-body">
+
+                  <?php for ($i=0; $i < count(@$indikasi_data); $i++): ?>
+
+                    <?php if ($i < 11): ?>
+
+                    <div class="form-group">
+                        <div class="col-md-9 col-xs-7 row">
+                         <input readonly="" class="form-control" type="text" value="<?php echo @$indikasi_data[$i]['indikasi_nama'] ?>">
+                        </div> 
+
+                        <div class="col-md-3 col-xs-5">
+                            <div data-toggle="buttons">
+                              <div class="btn-group">
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="pilih[<?php echo $i; ?>]" id="type" value="<?php echo @$indikasi_data[$i]['indikasi_id'] ?>" class="sr-only" required>Ya
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="pilih[<?php echo $i; ?>]" id="type" value="0" class="sr-only" required>Tidak
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <br/>
+
+                    <?php endif ?>
+
+                   <?php endfor ?>
+
+                  <button class="btn btn-primary nextBtn" type="button">Next <i class="fa fa-angle-double-right"></i></button>
+              </div>
+            </div>
+            <div class="panel panel-primary setup-content" id="step-2">
+              <div class="panel-body">
+                  <?php for ($i=0; $i < count(@$indikasi_data); $i++): ?>
+
+                    <?php if ($i > 10 && $i < 22): ?>
+
+                    <div class="form-group">
+                        <div class="col-md-9 col-xs-7 row">
+                         <input readonly="" class="form-control" type="text" value="<?php echo @$indikasi_data[$i]['indikasi_nama'] ?>">
+                        </div> 
+
+                        <div class="col-md-3 col-xs-5">
+                            <div data-toggle="buttons">
+                              <div class="btn-group">
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="pilih[<?php echo $i; ?>]" id="type" value="<?php echo @$indikasi_data[$i]['indikasi_id'] ?>" class="sr-only" required>Ya
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="pilih[<?php echo $i; ?>]" id="type" value="0" class="sr-only" required>Tidak
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <br/>
+
+                    <?php endif ?>
+
+                   <?php endfor ?>
+
+                  <button type="submit" class="btn btn-success"><i class="fa fa-history"></i> Start Diagnosa</button>
+              </div>
+            </div>
+          </form>
 
           </div>
         </div>
@@ -241,7 +292,7 @@
 
           var num = $('#bayar').val() - total; 
 
-          if ($('#bayar').val() <= total) {
+          if ($('#bayar').val() < total) {
               $('#kembali').val('');
               $('#btn_bayar').attr('disabled',true);
           }else{

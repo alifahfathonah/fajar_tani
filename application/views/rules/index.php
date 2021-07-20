@@ -1,4 +1,4 @@
-<section class="content-header">
+    <section class="content-header">
       <h1>
         <?php echo $title; ?>
         <small>Control panel</small>
@@ -18,7 +18,7 @@
         <i class="icon fa fa-close"></i>
         <?php echo $this->session->flashdata('gagal'); ?>
       </div>
-    <?php endif ?>
+    <?php endif ?> 
  
     <?php if ($this->session->flashdata('success')): ?>
       <div class="alert alert-success alert-dismissible">
@@ -128,37 +128,46 @@
                 <form role="form" method="post" action="<?php echo base_url() ?>rules/add" enctype="multipart/form-data">
                   <div class="box-body">
 
-                    <div class="form-group">
-                      <label>Indikasi</label>
-                      <br/>
+                  <div class="row">
+                    
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Indikasi</label>
+                        <br/>
 
-                      <?php foreach ($indikasi_data as $key): ?>
-                        <div class="col-md-6 col-xs-6 row">
-                          <div class="custom-control custom-checkbox">
-                            <input value="<?php echo $key['indikasi_id'] ?>" name="rules_indikasi[]" type="checkbox" class="custom-control-input">
-                            <span><?php echo $key['indikasi_nama'] ?></span>
+                        <?php foreach ($indikasi_data as $key): ?>
+                          <div class="col-md-6 col-xs-6 row">
+                            <div class="custom-control custom-checkbox">
+                              <input value="<?php echo $key['indikasi_id'] ?>" name="rules_indikasi[]" type="checkbox" class="custom-control-input">
+                              <span><?php echo $key['indikasi_nama'] ?></span>
+                            </div>
                           </div>
-                        </div>
-                      <?php endforeach ?>
-
-                    </div>
-
-                    <br/><br/>
-                    <div class="form-group">
-                      <label>penyakit</label>
-                      <select class="form-control" required="" name="rules_penyakit">
-                        <option value="" hidden="">-- Pilih --</option>
-
-                        <?php foreach ($penyakit_data as $key): ?>
-                          <option value="<?php echo $key['penyakit_id'] ?>"><?php echo $key['penyakit_nama'] ?></option>
                         <?php endforeach ?>
 
-                      </select>
+                      </div>
                     </div>
 
-                  </div>
-                  <!-- /.box-body -->
+                    <div class="clearfix"></div>
 
+                    <br/>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>penyakit</label>
+                        <select class="form-control" required="" name="rules_penyakit">
+                          <option value="" hidden="">-- Pilih --</option>
+
+                          <?php foreach ($penyakit_data as $key): ?>
+                            <option value="<?php echo $key['penyakit_id'] ?>"><?php echo $key['penyakit_nama'] ?></option>
+                          <?php endforeach ?>
+
+                        </select>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  </div>
+                  
                   <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
                      <button type="reset" class="btn btn-danger">Reset</button>

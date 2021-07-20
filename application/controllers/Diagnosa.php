@@ -2,7 +2,7 @@
 class Diagnosa extends CI_Controller{
 
 	function __construct(){
-		parent::__construct();
+		parent::__construct(); 
 	}  
 	function index(){  
 		if ( $this->session->userdata('login') == 1) {
@@ -20,75 +20,91 @@ class Diagnosa extends CI_Controller{
 			redirect(base_url('login'));
 		}
 	}
-	function pilih(){
+	function pilih($type = ''){
 
 		// -- HITUNG METODE FORWARD CHAINING -- //
-		$cek = $this->db->query("SELECT * FROM t_rules WHERE rules_hapus = 0")->num_rows();
+		
+	 	$id = $this->session->userdata('id');
+	 	$indikasi = implode(',', $_POST['pilih']);
+	 	
+	 	//menentukan penyakit
+		$x = $this->db->query("SELECT * FROM t_rules as a JOIN t_penyakit as b On a.rules_penyakit = b.penyakit_id JOIN t_obat AS c ON b.penyakit_obat = c.obat_id WHERE a.rules_indikasi = '$indikasi'")->row_array();
 
-		 if ($cek > 0) {
+	 	if (@count($x) > 0) {
 
+		 	$penyakit = $x['rules_penyakit'];
+		 	$status = 'pasti';
+		 	$h_k = $x['penyakit_nama'];
+		 	$deskripsi = $x['penyakit_deskripsi'];
+		 	$obat = $x['obat_nama'];
+		 	$obat_id = $x['obat_id'];
+		 	$obat_kode = $x['obat_kode'];
+		 	$obat_harga = $x['obat_harga'];
 		 	$id = $this->session->userdata('id');
-		 	$indikasi = implode(',', $_POST['pilih']);
 
-		 	if (@$indikasi > 0) {
+		 	//save data
+		 	$set = array(
+	 						'diagnosa_user' => $id,
+	 						'diagnosa_indikasi' => $indikasi, 
+	 						'diagnosa_penyakit' => $penyakit,
+	 						'diagnosa_status' => $status,
+	 						'diagnosa_obat' => $obat_id,
+	 						'diagnosa_tanggal'	=> date('Y-m-d'),
+	 					);
+
+	 		$this->db->set($set);
+	 		$this->db->insert('t_diagnosa');
+
+		 	if ($type == 1) {
+
+		 		//menu transaksi
+
+		 		$i = array(
+		 					'log_user' => $id,
+		 					'log_kode' => $obat_kode,
+		 					'log_obat' => $obat,
+		 					'log_harga' => $obat_harga, 
+		 				  );
+
+		 		$this->db->set($i);
+	 			$this->db->insert('t_log');
 		 		
-		 		//menentukan penyakit
-			 	$x = $this->db->query("SELECT * FROM t_rules as a JOIN t_penyakit as b On a.rules_penyakit = b.penyakit_id JOIN t_obat AS c ON b.penyakit_obat = c.obat_id WHERE a.rules_indikasi = '$indikasi'")->row_array();
+		 		$this->session->set_flashdata('success','Obat yang sesuai dengan diagnosa di temukan');
+		 		redirect(base_url('transaksi'));
+		 	}else{
 
-			 	//rule ada
-			 	if ($x > 0) {
-				 	$penyakit = $x['rules_penyakit'];
-				 	$status = 'pasti';
-				 	$h_k = $x['penyakit_nama'];
-				 	$deskripsi = $x['penyakit_deskripsi'];
-				 	$obat = $x['obat_nama'];
-				 	$obat_id = $x['obat_id'];
+		 		//menu diagnosa
+		 		
+		 		if ($x > 0) {
+
+			 		//membuat sesi hasil diagnosa
+			 		$kirim_hasil = array(
+			 								'penyakit' => $h_k,
+			 								'status' => $status,
+			 								'obat' => $obat, 
+			 							);
+
+			 		$this->session->set_flashdata('hasil',$kirim_hasil);
+
 				 } else {
-				 //gejala mirip
-				 	$i = $this->db->query("SELECT * FROM t_rules as a JOIN t_penyakit as b ON a.rules_penyakit = b.penyakit_id JOIN t_obat AS c ON b.penyakit_obat = c.obat_id WHERE a.rules_indikasi IN ($indikasi) ORDER BY a.rules_indikasi DESC LIMIT 1")->row_array();
-				 	$penyakit = $i['rules_penyakit'];
-				 	$status = 'belum pasti';
-				 	$h_k = $i['penyakit_nama'];
-				 	$deskripsi = $i['penyakit_deskripsi'];
-				 	$obat = $i['obat_nama'];
-				 	$obat_id = $i['obat_id'];
+
+				 	//rule kosong
+				 	$this->session->set_flashdata('gagal','Rule tidak di temukan !!');
 				 }
 
-				 $set = array(
-		 						'diagnosa_user' => $this->session->userdata('id'),
-		 						'diagnosa_indikasi' => $indikasi, 
-		 						'diagnosa_penyakit' => $penyakit,
-		 						'diagnosa_status' => $status,
-		 						'diagnosa_obat' => $obat_id,
-		 						'diagnosa_tanggal'	=> date('Y-m-d'),
-		 					);
-
-		 		$this->db->set($set);
-		 		$this->db->insert('t_diagnosa');
-
-		 		//membuat sesi hasil diagnosa
-		 		$kirim_hasil = array(
-		 								'penyakit' => $h_k,
-		 								'status' => $status,
-		 								'obat' => $obat, 
-		 							);
-
-		 		$this->session->set_flashdata('hasil',$kirim_hasil);
-
 		 		redirect(base_url('hasil'));
-
-		 	} else {
-		 		//indikasi kosong
-		 		$this->session->set_flashdata('gagal','Indikasi Masih Kosong !!');
-		 		redirect(base_url('diagnosa'));
 		 	}
 
-		 } else {
-		 	//rule kosong
-		 	$this->session->set_flashdata('gagal','Rule Masih Kosong !!');
-		 	redirect(base_url('diagnosa'));
-		 }
-		
+	 	} else {
+	 		//indikasi kosong
+	 		$this->session->set_flashdata('gagal','Rule tidak di temukan !!');
+
+	 		if ($type == 1) {
+	 			redirect(base_url('transaksi'));
+	 		}else{
+	 			redirect(base_url('diagnosa'));
+	 		}
+	 	}
 
 	}
 }

@@ -58,6 +58,7 @@
                   <th>Foto</th>
                   <th>Kode</th>
                   <th>Nama Obat</th>
+                  <th>Stok</th>
                   <th>Aturan Pakai</th>
                   <th>Harga (Rp)</th>
 
@@ -77,6 +78,7 @@
                     <td><a href="<?= (@$key['obat_foto'])? base_url('assets/gambar/obat/'.$key['obat_foto']) : base_url('assets/gambar/no.png') ?>"><img src="<?= (@$key['obat_foto'])? base_url('assets/gambar/obat/'.$key['obat_foto']) : base_url('assets/gambar/no.png') ?>" width="40"></a></td>
                     <td><?php echo $key['obat_kode'] ?></td>
                     <td><?php echo $key['obat_nama'] ?></td>
+                    <td><?php echo $key['obat_stok'] ?></td>
                     <td><?php echo $key['obat_aturan'] ?></td>
                     <td><?php echo number_format($key['obat_harga']) ?></td>
 
@@ -141,6 +143,10 @@
                                 <input required="" type="number" name="obat_harga" class="form-control" value="<?php echo $key['obat_harga'] ?>">
                               </div>
                               <div class="form-group">
+                                <label>Stok</label>
+                                <input required="" type="number" name="obat_stok" class="form-control" value="<?php echo $key['obat_stok'] ?>">
+                              </div>
+                              <div class="form-group">
                                 <label>Aturan Pakai</label>
                                 <textarea required="" placeholder="aturan" name="obat_aturan" class="form-control"><?php echo $key['obat_aturan'] ?></textarea>
                               </div>
@@ -198,6 +204,10 @@
                     <div class="form-group">
                       <label>Harga (Rp)</label>
                       <input required="" type="number" name="obat_harga" class="form-control" value="">
+                    </div>
+                    <div class="form-group">
+                      <label>Stok</label>
+                      <input required="" type="number" name="obat_stok" class="form-control" value="">
                     </div>
                     <div class="form-group">
                       <label>Aturan Pakai</label>

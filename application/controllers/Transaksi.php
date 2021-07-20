@@ -20,7 +20,7 @@ class Transaksi extends CI_Controller{
 		    $this->load->view('transaksi/index');
 		    $this->load->view('v_template_admin/admin_footer');
  
-		}
+		} 
 		else{
 			redirect(base_url('login'));
 		}
@@ -87,6 +87,28 @@ class Transaksi extends CI_Controller{
 		$this->db->set($set);
 
 		if ($this->db->insert('t_transaksi')) {
+			
+			//kurangi stok
+			$db_obat = $this->db->query("SELECT * FROM t_obat WHERE obat_hapus = 0")->result_array();
+			$db_log = $this->db->query("SELECT log_kode AS kode, SUM(log_jumlah) AS jumlah FROM t_log GROUP BY log_kode")->result_array();
+
+			foreach ($db_obat as $obat) {
+				
+				foreach ($db_log as $log) {
+					
+					if ($obat['obat_kode'] == $log['kode']) {
+						
+						$kode = $log['kode'];
+						$hasil = $obat['obat_stok'] - $log['jumlah'];
+
+						$this->db->where('obat_kode',$kode);
+						$this->db->set('obat_stok',$hasil);
+						$this->db->update('t_obat'); 
+					}
+				}
+				  
+			}
+
 			//delete log
 			$this->db->where('log_user',$user);
 			$this->db->delete('t_log');

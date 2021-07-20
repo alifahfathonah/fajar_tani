@@ -50,7 +50,6 @@
                   <th>Penyakit</th>
                   <th>Obat</th>
                   <th>Deskripsi</th>
-                  <th>Status</th>
 
                   <?php if ($this->session->userdata('level') == 1): ?>
                   <th style="width: 20px;">Action</th>
@@ -66,8 +65,7 @@
                     <td><?php echo $key['penyakit_nama'] ?></td>
                     <td><?php echo $key['obat_nama'] ?></td>
                     <td><?php echo $key['penyakit_deskripsi'] ?></td>
-                    <td><?php echo $key['diagnosa_status'] ?></td>
-
+                  
                     <?php if ($this->session->userdata('level') == 1): ?>
 
                     <td style="width: 20px;">

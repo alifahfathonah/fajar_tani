@@ -16,7 +16,7 @@ class Obat extends CI_Controller{
 
 		} 
 		else{
-			redirect(base_url('login'));
+			redirect(base_url('login')); 
 		}
 	}  
 	function add(){ 
@@ -60,6 +60,7 @@ class Obat extends CI_Controller{
 										'obat_nama' => $_POST['obat_nama'],
 										'obat_aturan' => $_POST['obat_aturan'],
 										'obat_harga' => $_POST['obat_harga'],
+										'obat_stok' => $_POST['obat_stok'],
 										'obat_tanggal'	=> date('Y-m-d'),
 									);
 
@@ -82,6 +83,7 @@ class Obat extends CI_Controller{
 								'obat_nama' => $_POST['obat_nama'],
 								'obat_aturan' => $_POST['obat_aturan'],
 								'obat_harga' => $_POST['obat_harga'],
+								'obat_stok' => $_POST['obat_stok'],
 								'obat_tanggal'	=> date('Y-m-d'),
 							);
 
@@ -144,6 +146,7 @@ class Obat extends CI_Controller{
 									'obat_nama' => $_POST['obat_nama'],
 									'obat_aturan' => $_POST['obat_aturan'],
 									'obat_harga' => $_POST['obat_harga'],
+									'obat_stok' => $_POST['obat_stok'],
 									'obat_tanggal'	=> date('Y-m-d'),
 								);
 
@@ -165,6 +168,7 @@ class Obat extends CI_Controller{
 							'obat_nama' => $_POST['obat_nama'],
 							'obat_aturan' => $_POST['obat_aturan'],
 							'obat_harga' => $_POST['obat_harga'],
+							'obat_stok' => $_POST['obat_stok'],
 							'obat_tanggal'	=> date('Y-m-d'),
 						);
 
