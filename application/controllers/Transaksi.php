@@ -39,6 +39,7 @@ class Transaksi extends CI_Controller{
 							'log_kode' => $obat['obat_kode'], 
 							'log_obat' => $obat['obat_nama'], 
 							'log_harga' => $obat['obat_harga'], 
+							'log_stok' => $obat['obat_stok'], 
 						);
 			$this->db->where('log_user', $user);
 			$this->db->where('log_status', 0);
@@ -53,6 +54,7 @@ class Transaksi extends CI_Controller{
 							'log_kode' => $obat['obat_kode'], 
 							'log_obat' => $obat['obat_nama'], 
 							'log_harga' => $obat['obat_harga'], 
+							'log_stok' => $obat['obat_stok'], 
 						);
 			$this->db->set($set);
 			$this->db->insert('t_log');
@@ -62,10 +64,19 @@ class Transaksi extends CI_Controller{
 	}
 	function cart_add(){
 		$id = $_POST['log_id'];
+		$stok = $_POST['log_stok'];
 
-		$this->db->where('log_id',$id);
-		$this->db->set('log_status',1);
-		$this->db->update('t_log');
+		if ($stok > 0) {
+			
+			$this->db->where('log_id',$id);
+			$this->db->set('log_status',1);
+			$this->db->update('t_log');
+		}else{
+
+			$this->db->where('log_id',$id);
+			$this->db->delete('t_log');
+			$this->session->set_flashdata('gagal','Stok obat kosong !!');
+		}
 
 		redirect(base_url('transaksi'));
 	}

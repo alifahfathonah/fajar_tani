@@ -40,6 +40,7 @@ class Diagnosa extends CI_Controller{
 		 	$obat_id = $x['obat_id'];
 		 	$obat_kode = $x['obat_kode'];
 		 	$obat_harga = $x['obat_harga'];
+		 	$obat_stok = $x['obat_stok'];
 		 	$id = $this->session->userdata('id');
 
 		 	//save data
@@ -58,12 +59,16 @@ class Diagnosa extends CI_Controller{
 		 	if ($type == 1) {
 
 		 		//menu transaksi
+		 		$this->db->where('log_user',$id);
+		 		$this->db->where('log_status',0);
+				$this->db->delete('t_log');
 
 		 		$i = array(
 		 					'log_user' => $id,
 		 					'log_kode' => $obat_kode,
 		 					'log_obat' => $obat,
 		 					'log_harga' => $obat_harga, 
+		 					'log_stok' => $obat_stok,
 		 				  );
 
 		 		$this->db->set($i);

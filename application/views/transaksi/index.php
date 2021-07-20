@@ -79,13 +79,20 @@
                   </div>
                   <div class="form-group">
                     <div class="input-group">
+                      <span class="input-group-addon">Stok Obat&#160;&#160;&#160;</span>
+                      <input readonly="" value="<?php echo @$log_last['log_stok'] ?>" type="text" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
                       <span class="input-group-addon">Harga Obat</span>
                       <input readonly="" value="<?php echo @$log_last['log_harga'] ?>" type="text" class="form-control">
                     </div>
                   </div>
 
-                  <!-- id log -->
+                  <!-- hidden log -->
                   <input type="hidden" name="log_id" value="<?php echo @$log_last['log_id'] ?>">
+                  <input type="hidden" name="log_stok" value="<?php echo @$log_last['log_stok'] ?>">
 
                   <div class="form-group">
                     <button type="submit" class="btn btn-default">Keranjang <i class="fa fa-fw fa-plus-circle"></i></button>
@@ -156,6 +163,7 @@
             <thead>
               <tr>
                 <th>Kode</th>
+                <th>Stok</th>
                 <th colspan="2">Nama Obat</th>
               </tr>
               </thead>
@@ -165,6 +173,7 @@
                                   
                   <tr>
                     <td><?php echo $key['obat_kode'] ?></td>
+                    <td><?php echo $key['obat_stok'] ?></td>
                     <td><img src="<?= (@$key['obat_foto'])? base_url('assets/gambar/obat/'.$key['obat_foto']) : base_url('assets/gambar/no.png') ?>" width="40"></td>
                     <td><?php echo $key['obat_nama'] ?></td>
                     <td style="width: 1px;">
