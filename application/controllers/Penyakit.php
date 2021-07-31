@@ -7,7 +7,7 @@ class Penyakit extends CI_Controller{
 	function index(){ 
 		if ( $this->session->userdata('login') == 1) {
 			$data['modul'] = 'active';
-		    $data['title'] = 'penyakit';
+		    $data['title'] = 'Bahan Aktif Obat';
 		    $data['data'] = $this->db->query("SELECT * FROM t_penyakit as a JOIN t_obat as b ON a.penyakit_obat = b.obat_id WHERE penyakit_hapus = 0")->result_array();
 		    $data['obat_data'] = $this->db->query("SELECT * FROM t_obat WHERE obat_hapus = 0")->result_array();
 

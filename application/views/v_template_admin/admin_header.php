@@ -279,8 +279,8 @@
             </a>
             <ul class="treeview-menu">
              
-              <li><a href="<?= base_url('indikasi') ?>"><i class="fa fa-circle-o"></i> Indikasi</a></li>
-              <li><a href="<?= base_url('penyakit') ?>"><i class="fa fa-circle-o"></i> Hama & Penyakit</a></li>
+              <li><a href="<?= base_url('indikasi') ?>"><i class="fa fa-circle-o"></i> Hama & Penyakit</a></li>
+              <li><a href="<?= base_url('penyakit') ?>"><i class="fa fa-circle-o"></i> Bahan Aktif Obat</a></li>
               <li><a href="<?= base_url('rules') ?>"><i class="fa fa-circle-o"></i> Rules</a></li>
             </ul>
           </li>

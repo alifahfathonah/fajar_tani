@@ -25,7 +25,10 @@ class Diagnosa extends CI_Controller{
 		// -- HITUNG METODE FORWARD CHAINING -- //
 		
 	 	$id = $this->session->userdata('id');
-	 	$indikasi = implode(',', $_POST['pilih']);
+
+	 	$arr = $_POST['pilih'];
+
+	 	$indikasi = implode(',', array_filter($arr));
 	 	
 	 	//menentukan penyakit
 		$x = $this->db->query("SELECT * FROM t_rules as a JOIN t_penyakit as b On a.rules_penyakit = b.penyakit_id JOIN t_obat AS c ON b.penyakit_obat = c.obat_id WHERE a.rules_indikasi = '$indikasi'")->row_array();
@@ -34,7 +37,7 @@ class Diagnosa extends CI_Controller{
 
 		 	$penyakit = $x['rules_penyakit'];
 		 	$status = 'pasti';
-		 	$h_k = $x['penyakit_nama'];
+		 	$h_k = $x['penyakit_nama']; 
 		 	$deskripsi = $x['penyakit_deskripsi'];
 		 	$obat = $x['obat_nama'];
 		 	$obat_id = $x['obat_id'];

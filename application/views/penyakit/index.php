@@ -49,7 +49,7 @@
                 <thead>
                 <tr>
                   <th>Nama</th>
-                  <th>Deskripsi</th>
+                  <th>Bahan Aktif</th>
                   <th>Obat</th>
                   <th>Action</th>
                 </tr>

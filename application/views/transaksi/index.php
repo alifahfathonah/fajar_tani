@@ -230,7 +230,7 @@
                                     <input type="radio" name="pilih[<?php echo $i; ?>]" id="type" value="<?php echo @$indikasi_data[$i]['indikasi_id'] ?>" class="sr-only" required>Ya
                                 </label>
                                 <label class="btn btn-primary">
-                                    <input type="radio" name="pilih[<?php echo $i; ?>]" id="type" value="0" class="sr-only" required>Tidak
+                                    <input type="radio" name="pilih[<?php echo $i; ?>]" id="type" value="<?php echo NULL ?>" class="sr-only" required>Tidak
                                 </label>
                               </div>
                             </div>

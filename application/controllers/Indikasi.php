@@ -7,7 +7,7 @@ class Indikasi extends CI_Controller{
 	function index(){ 
 		if ( $this->session->userdata('login') == 1) {
 			$data['modul'] = 'active';
-		    $data['title'] = 'Indikasi';
+		    $data['title'] = 'Hama & Penyakit';
 		    $data['data'] = $this->db->query("SELECT * FROM t_indikasi WHERE indikasi_hapus = 0")->result_array();
 
 		    $this->load->view('v_template_admin/admin_header',$data);

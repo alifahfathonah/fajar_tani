@@ -9,7 +9,7 @@
       </ol>
     </section> 
 
-    <!-- Main content --> 
+    <!-- Main content -->  
     <section class="content">
 
     <?php if ($this->session->flashdata('gagal')): ?>
@@ -48,18 +48,21 @@
           <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
+                  <th width="1">No</th>
                   <th>Nama</th>
                   <th>Indikasi</th>
-                  <th>penyakit</th>
+                  <th>Nama Obat</th>
                   <th>Tanggal Input</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
 
+                <?php $i = 1; ?>
                 <?php foreach ($data as $key): ?>
                                   
                   <tr>
+                    <td><?php echo $i ?></td>
                     <td><?php echo $key['rules_nama'] ?></td>
                     <td>
 
@@ -105,6 +108,7 @@
                        </div> 
 
                   <!-- /.modal -->
+                <?php $i++ ?>
                 <?php endforeach ?>
 
                 </tfoot>
